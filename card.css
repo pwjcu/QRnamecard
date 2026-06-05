@@ -1,0 +1,130 @@
+/* =====================================================================
+   디지털 명함 — 공유 스타일 (디자인 담당자만 수정)
+   브랜드 변경은 아래 :root 변수만 바꾸면 전체에 적용됩니다.
+   ===================================================================== */
+
+:root{
+  /* ---- 브랜드 토큰 (여기만 바꾸면 4명 카드에 동시 적용) ---- */
+  --paper:      #f4f1ec;   /* 배경 (따뜻한 오프화이트) */
+  --paper-2:    #ece7df;   /* 배경 그라데이션 끝색 */
+  --ink:        #1b1a17;   /* 본문/이름 글자색 */
+  --muted:      #8a847a;   /* 보조 텍스트 */
+  --line:       #ddd6cb;   /* 경계선 */
+  --accent:     #2f4332;   /* 포인트(딥 그린) — 회사색으로 교체 */
+  --accent-ink: #f4f1ec;   /* 포인트 위 글자색 */
+  --card-bg:    rgba(255,255,255,0.55);
+
+  --font-display: "Gowun Batang", "Nanum Myeongjo", serif; /* 이름용 세리프 */
+  --font-body:    "Pretendard", -apple-system, system-ui, sans-serif;
+  --radius: 16px;
+  --maxw: 460px;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+html,body{ height:100%; }
+
+body{
+  font-family: var(--font-body);
+  color: var(--ink);
+  background:
+    radial-gradient(120% 80% at 50% -10%, var(--paper) 0%, var(--paper-2) 100%) fixed;
+  -webkit-font-smoothing: antialiased;
+  display:flex; justify-content:center;
+  padding: 40px 20px 64px;
+  min-height:100%;
+  position:relative;
+}
+
+/* 종이 질감(노이즈) */
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+#card{
+  width:100%; max-width:var(--maxw); position:relative; z-index:1;
+}
+
+/* ---------- 헤더 ---------- */
+.hd{ text-align:center; margin-bottom:34px; }
+
+.avatar{
+  width:84px; height:84px; border-radius:50%;
+  margin:0 auto 22px; display:flex; align-items:center; justify-content:center;
+  background:var(--accent); color:var(--accent-ink);
+  font-family:var(--font-display); font-size:32px; letter-spacing:.02em;
+  object-fit:cover; overflow:hidden;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.avatar img{ width:100%; height:100%; object-fit:cover; }
+
+.name{
+  font-family:var(--font-display);
+  font-size:34px; font-weight:700; letter-spacing:-0.01em; line-height:1.1;
+}
+.title{
+  margin-top:10px; font-size:13px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--muted); font-weight:600;
+}
+.company{
+  margin-top:4px; font-size:14px; color:var(--ink); font-weight:500; opacity:.85;
+}
+.divider{
+  width:36px; height:1px; background:var(--line); margin:24px auto 0;
+}
+
+/* ---------- 링크 버튼 ---------- */
+.links{ display:flex; flex-direction:column; gap:11px; }
+
+.lnk{
+  display:flex; align-items:center; gap:15px;
+  padding:17px 20px;
+  background:var(--card-bg);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  color:var(--ink); text-decoration:none;
+  backdrop-filter:blur(6px);
+  transition:transform .18s ease, box-shadow .25s ease, border-color .2s ease, background .2s ease;
+  opacity:0; transform:translateY(12px);
+  animation:rise .55s cubic-bezier(.2,.7,.2,1) forwards;
+}
+.lnk:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 26px rgba(27,26,23,.10);
+  border-color:var(--accent);
+}
+.lnk:active{ transform:translateY(0) scale(.99); }
+
+.lnk .ic{
+  flex:0 0 22px; width:22px; height:22px; color:var(--accent);
+  display:flex; align-items:center; justify-content:center;
+}
+.lnk .ic svg{ width:100%; height:100%; }
+.lnk .tx{ flex:1; font-size:15.5px; font-weight:600; letter-spacing:-.01em; }
+.lnk .arr{ color:var(--muted); opacity:.6; transition:transform .2s ease; }
+.lnk:hover .arr{ transform:translateX(3px); color:var(--accent); }
+
+@keyframes rise{ to{ opacity:1; transform:translateY(0); } }
+
+/* 헤더 등장 */
+.hd .avatar,.hd .name,.hd .title,.hd .company,.hd .divider{
+  opacity:0; transform:translateY(10px); animation:rise .6s ease forwards;
+}
+.hd .avatar{ animation-delay:.02s; }
+.hd .name{ animation-delay:.10s; }
+.hd .title{ animation-delay:.16s; }
+.hd .company{ animation-delay:.20s; }
+.hd .divider{ animation-delay:.26s; }
+
+/* ---------- 푸터 ---------- */
+.ft{
+  text-align:center; margin-top:32px;
+  font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+  opacity:0; animation:rise .6s ease forwards; animation-delay:.8s;
+}
+
+@media (prefers-color-scheme: dark){
+  /* 자동 다크모드를 원치 않으면 이 블록을 지우세요 */
+}
