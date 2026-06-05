@@ -5,7 +5,7 @@
    ===================================================================== */
 window.PROFILE = {
   name:    "전치욱",
-  // title:   "",                       // 직책은 표시 안 함 (명함에 별도 프린팅)
+  title:   "Technical Growth Specialist · 기술성장파트 팀장",
   company: "닥터에이디",
   // photo: "../assets/chiwook.jpg",   // 사진을 쓰려면 // 를 지우고 assets에 파일 업로드
   // accent: "#7a4a3a",                 // 이 사람만 포인트색을 바꾸고 싶을 때
